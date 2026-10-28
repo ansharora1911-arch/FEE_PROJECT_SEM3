@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Music2 } from 'lucide-react'
+import { publicAsset } from '../publicAsset'
 
-const fallbackArtwork = '/artwork/track-artwork-placeholder.svg'
+const fallbackArtwork = publicAsset('artwork/track-artwork-placeholder.svg')
 
 export default function TrackArtwork({ track, className = '', placeholderClassName = 'track-art-placeholder', alt = '' }) {
   const [failedSource, setFailedSource] = useState('')

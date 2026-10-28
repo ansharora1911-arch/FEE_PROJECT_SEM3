@@ -51,7 +51,7 @@
 .public-language-menu { position: absolute; z-index: 3; bottom: 50px; left: 0; width: 230px; display: flex; flex-direction: column; gap: 9px; padding: 15px; border-radius: 8px; background: #282828; box-shadow: 0 8px 24px #0008; font-size: 14px; }
 .public-language-menu small { color: #b3b3b3; line-height: 1.4; }
 .public-main { overflow: auto; padding: 28px 50px 35px; background: linear-gradient(180deg, #242424 0, #121212 210px); scrollbar-width: thin; scrollbar-color: #ffffff45 transparent; }
-.public-section + .public-section { margin-top: 86px; }
+.public-section + .public-section { margin-top: 54px; }
 .public-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
 .public-section-heading h1 { margin: 0; font-size: 30px; line-height: 1.2; letter-spacing: -.6px; font-weight: 750; }
 .public-section-heading button { flex: 0 0 auto; padding: 4px 10px; color: #b3b3b3; background: transparent; font-size: 15px; font-weight: 700; }
@@ -66,13 +66,20 @@
 .public-song-card b { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 18px; line-height: 1.35; font-weight: 500; }
 .public-song-card > span:not(.public-art-placeholder) { color: #b3b3b3; font-size: 16px; line-height: 1.45; }
 .public-carousel.is-expanded .public-cover,.public-carousel.is-expanded .public-art-placeholder { width: 100%; height: auto; aspect-ratio: 1; flex-basis: auto; }
-.artist-section { margin-top: 57px; }
 .public-artist-card { flex-basis: 215px; padding: 0 0 9px; }
-.public-artist-placeholder { width: 215px; height: 215px; flex: 0 0 215px; display: grid; place-items: center; border-radius: 50%; background: #242424; color: #aaa; }
-.public-artist-card:hover .public-artist-placeholder { background: #303030; }
+.public-artist-art { position: relative; display: grid; width: 215px; height: 215px; flex: 0 0 215px; place-items: center; border: 1px solid #ffffff20; border-radius: 50%; color: #fff; font-size: 58px; font-weight: 750; letter-spacing: -3px; text-shadow: 0 2px 14px #0005; box-shadow: 0 8px 20px #0005; transition: transform .2s ease, box-shadow .2s ease; }
+.public-artist-avatar.tone-0 { background: radial-gradient(circle at 30% 25%,#af8de1,#432d68 70%); }
+.public-artist-avatar.tone-1 { background: radial-gradient(circle at 30% 25%,#72b6a1,#23483d 70%); }
+.public-artist-avatar.tone-2 { background: radial-gradient(circle at 30% 25%,#df916e,#673d36 70%); }
+.public-artist-avatar.tone-3 { background: radial-gradient(circle at 30% 25%,#7da8d5,#2b3f69 70%); }
+.public-artist-avatar.tone-4 { background: radial-gradient(circle at 30% 25%,#d1a85d,#5c4724 70%); }
+.public-artist-avatar.tone-5 { background: radial-gradient(circle at 30% 25%,#c77ca9,#5e2e55 70%); }
+.public-artist-play { position: absolute; right: 7px; bottom: 7px; display: grid; width: 48px; height: 48px; place-items: center; border-radius: 50%; color: #000; background: #1ed760; box-shadow: 0 5px 14px #0008; opacity: 0; transform: translateY(7px); transition: opacity .18s ease, transform .18s ease; }
+.public-artist-card:hover .public-artist-art,.public-artist-card:focus-visible .public-artist-art { box-shadow: 0 12px 26px #0009; transform: scale(1.035); }
+.public-artist-card:hover .public-artist-play,.public-artist-card:focus-visible .public-artist-play { opacity: 1; transform: translateY(0); }
 .public-artist-card b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; font-weight: 500; }
-.public-artist-card > span:last-child { color: #b3b3b3; }
-.artist-carousel.is-expanded .public-artist-placeholder { width: 100%; height: auto; aspect-ratio: 1; flex-basis: auto; }
+.public-artist-type { color: #b3b3b3; }
+.artist-carousel.is-expanded .public-artist-art { width: 100%; height: auto; aspect-ratio: 1; flex-basis: auto; }
 .public-empty-results { color: #b3b3b3; padding-top: 20px; }
 .public-signup-banner { min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 10px 30px 10px 19px; border-radius: 9px; color: #fff; background: linear-gradient(105deg, #c52ca6 0%, #9b54d1 48%, #4d97f4 100%); }
 .public-signup-banner b { display: block; margin-bottom: 5px; font-size: 16px; }
@@ -178,10 +185,11 @@ body:has(.public-app) #root { width: 100vw; height: 100dvh; }
   .public-prompt p { font-size: 14px; }
   .public-sidebar-footer { padding-right: 8px; padding-left: 8px; }
   .public-main { padding: 24px 22px; }
-  .public-cover,.public-art-placeholder,.public-artist-placeholder { width: 180px; height: 180px; flex-basis: 180px; }
+  .public-cover,.public-art-placeholder { width: 180px; height: 180px; flex-basis: 180px; }
+  .public-artist-art { width: 180px; height: 180px; flex-basis: 180px; }
   .public-song-card,.public-artist-card { flex-basis: 180px; }
   .public-section-heading h1 { font-size: 25px; }
-  .public-section + .public-section { margin-top: 40px; }
+  .public-section + .public-section { margin-top: 36px; }
   .public-signup-banner p { font-size: 15px; }
   .public-signup-banner button { flex-basis: 150px; height: 52px; }
   .account-public-app .public-header { width: calc(100% - 40px); }
@@ -215,7 +223,8 @@ body:has(.public-app) #root { width: 100vw; height: 100dvh; }
   .public-main { padding: 20px 16px; }
   .public-section-heading h1 { font-size: 22px; }
   .public-carousel { gap: 14px; padding-top: 16px; }
-  .public-cover,.public-art-placeholder,.public-artist-placeholder { width: 145px; height: 145px; flex-basis: 145px; }
+  .public-cover,.public-art-placeholder { width: 145px; height: 145px; flex-basis: 145px; }
+  .public-artist-art { width: 145px; height: 145px; flex-basis: 145px; }
   .public-song-card,.public-artist-card { flex-basis: 145px; }
   .public-song-card b,.public-artist-card b { font-size: 15px; }
   .public-song-card > span:not(.public-art-placeholder) { font-size: 13px; }

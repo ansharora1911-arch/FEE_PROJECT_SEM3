@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, CircleArrowDown, ChevronDown, ChevronRight, Globe2, Home, Music2, Search, Smartphone, UsersRound, X } from 'lucide-react'
+import { ArrowLeft, CircleArrowDown, ChevronDown, ChevronRight, Globe2, Home, Play, Search, Smartphone, UsersRound, X } from 'lucide-react'
 import { tracks } from './data/musicData'
 import TrackArtwork from './components/TrackArtwork'
+import { publicAsset } from './publicAsset'
 import { loginDemoAccount, registerDemoAccount, validateDemoEmail, validateDemoPassword } from './auth/demoAuth'
 import './PublicExperience.css'
 
-const artists = [...new Set(tracks.flatMap((track) => track.artist.split(',').map((name) => name.trim())))].slice(0, 8)
+const artists = [...new Set(tracks.flatMap((track) => track.artist.split(',').map((name) => name.trim())))]
+  .slice(0, 8)
+  .map((name, index) => ({ name, initials: name.split(/\s+/).map((part) => part.replace(/[^A-Za-z]/g, '')[0]).filter(Boolean).slice(0, 2).join('').toUpperCase(), tone: index % 6 }))
 const footerLinks = ['Legal', 'Safety & Privacy Center', 'Privacy Policy', 'Cookies', 'About Ads', 'Accessibility', 'Cookie settings']
 
 function SpotifyMark() {
@@ -73,7 +76,7 @@ function PublicHeader({ navigate, search, setSearch, route, enterPlayerDemo, dem
         {route !== 'login' && <button className="public-login-button" onClick={() => navigate('login')}>Log in</button>}
       </>}
       {(isAccount || demoSession) && <div className="public-profile-wrap" ref={profileRef}>
-        <button className="public-profile-trigger" aria-expanded={profileOpen} aria-controls="public-profile-menu" onClick={() => { setProfileOpen((open) => !open); setPremiumOpen(false) }}><img src="/artwork/profile-user.png" alt=""/><span>{demoSession ? 'Demo account' : 'Profile'}</span><ChevronDown size={18}/></button>
+        <button className="public-profile-trigger" aria-expanded={profileOpen} aria-controls="public-profile-menu" onClick={() => { setProfileOpen((open) => !open); setPremiumOpen(false) }}><img src={publicAsset('artwork/profile-user.png')} alt=""/><span>{demoSession ? 'Demo account' : 'Profile'}</span><ChevronDown size={18}/></button>
         {profileOpen && <div className="public-profile-menu" id="public-profile-menu" aria-label="Profile menu">
           {demoSession && <p className="public-session-email">{demoSession.email}</p>}
           <button onClick={() => { setProfileOpen(false); navigate('account') }}>Account dashboard <span>Demo</span></button>
@@ -106,7 +109,7 @@ function PublicCarousel({ title, items, kind, expanded, onShowAll, onSelect }) {
     <div className={`public-carousel ${expanded ? 'is-expanded' : ''} ${kind}-carousel`}>
       {visible.map((item) => kind === 'song'
         ? <button className="public-song-card" key={item.id} onClick={() => onSelect('signup')} aria-label={`Sign up to listen to ${item.title}`}><Artwork track={item}/><b>{item.title}</b><span>{item.artist}</span></button>
-        : <button className="public-artist-card" key={item} onClick={() => onSelect('signup')} aria-label={`Sign up to listen to ${item}`}><span className="public-artist-placeholder"><Music2 size={44}/></span><b>{item}</b><span>Artist</span></button>)}
+        : <button className="public-artist-card" key={item.name} onClick={() => onSelect('signup')} aria-label={`Sign up to listen to ${item.name}`}><span className={`public-artist-art public-artist-avatar tone-${item.tone}`} aria-hidden="true">{item.initials}<span className="public-artist-play"><Play size={22} fill="currentColor"/></span></span><b>{item.name}</b><span className="public-artist-type">Artist</span></button>)}
     </div>
   </section>
 }
@@ -176,8 +179,8 @@ function AccountDashboard({ navigate }) {
           <h1 id="account-plan-title">Platinum</h1>
           <p>Demo account · sample plan summary</p>
           <div className="account-member-avatars" aria-label="Sample account members">
-            <img src="/artwork/profile-user.png" alt=""/>
-            <img src="/artwork/profile-user.png" alt=""/>
+            <img src={publicAsset('artwork/profile-user.png')} alt=""/>
+            <img src={publicAsset('artwork/profile-user.png')} alt=""/>
             <span aria-hidden="true">S</span>
           </div>
         </div>
